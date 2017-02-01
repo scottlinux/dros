@@ -20,7 +20,6 @@
     - qemu-system-x86
     - texinfo
     - xorriso
-    - vim
     - ncurses
 
 - name: Create cross-compiler build directory
@@ -42,8 +41,7 @@
   args:
       chdir: '/home/vagrant/cross-compiler/binutils-build'
   with_items:
-    - '../binutils-{{ binutils_version }}/configure --target={{ target_arch }} --prefix={{ install_prefix }} \
-        --disable-nls --enable-languages=c --without-headers'
+    - '../binutils-{{ binutils_version }}/configure --target={{ target_arch }} --prefix={{ install_prefix }} --disable-nls --enable-languages=c --without-headers'
     - make
     - make install
 
@@ -64,15 +62,14 @@
   args:
       chdir: '/home/vagrant/cross-compiler/gcc-build'
   with_items:
-    - '../gcc-{{ gcc_version }}/configure --target={{ target_arch }} --prefix={{ install_prefix }} \
-        --disable-nls --enable-languages=c --without-headers'
+    - '../gcc-{{ gcc_version }}/configure --target={{ target_arch }} --prefix={{ install_prefix }} --disable-nls --enable-languages=c --without-headers'
     - make all-gcc
     - make all-target-libgcc
     - make install-gcc
     - make install-target-libgcc
 
 - name: Enable GDB auto-loading
-  copy: src=gdbinit dest=/home/{{ ansible_env.SUDO_USER }}/.gdbinit
+  copy: src=gdbinit dest=/home/vagrant/.gdbinit
 
 - name: Add custom bashrc
-  copy: src=bashrc dest=/home/{{ ansible_env.SUDO_USER }}/.bashrc
+  copy: src=bashrc dest=/home/vagrant/.bashrc
